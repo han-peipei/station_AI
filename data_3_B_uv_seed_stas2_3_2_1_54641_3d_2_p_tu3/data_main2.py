@@ -8,7 +8,7 @@ from train_3_B import train_and_evaluate_from_npy
 
 # ---------------- 必要的小工具函数（保留） ----------------
 def to_array(x):
-    if isinstance(x, list):
+    if isinstance(x, list): 
         try:
             return np.stack([np.asarray(e) for e in x], axis=0)
         except Exception:
