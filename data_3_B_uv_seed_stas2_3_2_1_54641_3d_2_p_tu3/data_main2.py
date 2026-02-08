@@ -41,7 +41,7 @@ def to_array(x):
 # ---------------- 配置区 ----------------
 ROOT = "/kaggle/input/codecode/stations_2324（train）"   # 
 # ROOT = "/thfs1/home/qx_hyt/hpp/data/station_AI/train_data2"   
-csv_path = "/thfs1/home/qx_hyt/hpp/data/station_AI/2023.csv"  
+csv_path = "2023.csv"  
 VARS = ("10u", "10v")                                        
 # VARS = ("10u", "10v",'2DPT','2RH','CAPE','MSL','2T','VIS')                                       
 TI = "02"                                                     # 起报时（当前正则里只匹配02）
