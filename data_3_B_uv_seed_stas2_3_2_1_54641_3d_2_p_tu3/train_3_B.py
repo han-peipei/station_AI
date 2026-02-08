@@ -597,7 +597,7 @@ def train_and_evaluate_from_npy(
     plt.ylim(0,2.5)
     plt.xlim(0,25)
     plt.close()
-    plt.plot(/kaggle/working/hourly_mae,'o-')
+    plt.plot(hourly_mae,'o-')
     plt.ylim(1,2.5)
     plt.xlim(0,25)
     plt.savefig("/kaggle/working/hourly_mae_direct.png")
