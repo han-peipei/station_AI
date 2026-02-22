@@ -165,14 +165,13 @@ def _check_np(name, arr):
           f"nan={np.isnan(arr).sum()}, inf={np.isinf(arr).sum()}, "
           f"min={np.nanmin(arr):.6g}, max={np.nanmax(arr):.6g}")
 
-_check_np("hist_train", hist_train)
-_check_np("nwp_train",  nwp_train)
-_check_np("y_train",    y_train)
-_check_np("hist_val",   hist_val)
-_check_np("nwp_val",    nwp_val)
-_check_np("y_val",      y_val)
-_check_np("coords_tr",  coords_tr)
-_check_np("coords_va",  coords_va)
+_check_np("hist_train_all",  hist_train_all)
+_check_np("model_train_all", model_train_all)
+_check_np("obs_train_all",   obs_train_all)
+_check_np("hist_val_all",    hist_val_all)
+_check_np("model_val_all",   model_val_all)
+_check_np("obs_val_all",     obs_val_all)
+
 # ---------------- 读取站点经纬高程并生成 coords ----------------
 df = pd.read_csv(csv_path, dtype={'Station_Id_C': str}, low_memory=False)
 df['Station_Id_C'] = df['Station_Id_C'].str.strip().str.upper()
@@ -196,7 +195,8 @@ def coords_from_meta(meta_list, lut):
 
 coords_tr = coords_from_meta(meta_tr, station_lut)   # (sum(nwin_train), 3)
 coords_va = coords_from_meta(meta_va, station_lut)   # (sum(nwin_val), 3)
-
+_check_np("coords_tr",       coords_tr)
+_check_np("coords_va",       coords_va)
 print("\n========== 开始统一训练模型 ==========\n")
 
 # 你的训练函数应接受四个输入（不需要 hour_codes）
