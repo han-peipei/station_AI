@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-
+mkdir -p /kaggle/working/select/
 # 可选：线程数（Kaggle 不一定有 64 核）
 # export OMP_NUM_THREADS=8
 
@@ -15,6 +15,6 @@ export PYTHONPATH="$ROOT:$PYTHONPATH"
 ENTRY="$ROOT/data_main2.py"
 
 # ✅ 日志：写到可写目录
-LOG="/kaggle/working/data_main2.log"
+LOG="/kaggle/working/select/data_main2.log"
 
 python -u "$ENTRY" 2>&1 | tee "$LOG"
