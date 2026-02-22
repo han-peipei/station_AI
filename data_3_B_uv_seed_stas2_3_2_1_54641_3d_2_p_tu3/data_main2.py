@@ -158,7 +158,21 @@ print("obs_train_all  :", None if obs_train_all   is None else obs_train_all.sha
 print("hist_val_all  :", None if hist_val_all   is None else hist_val_all.shape)
 print("model_val_all  :", None if model_val_all   is None else model_val_all.shape)
 print("obs_val_all    :", None if obs_val_all     is None else obs_val_all.shape)
+def _check_np(name, arr):
+    arr = np.asarray(arr)
+    print(f"[CHECK] {name}: shape={arr.shape}, dtype={arr.dtype}")
+    print(f"        finite={np.isfinite(arr).all()}, "
+          f"nan={np.isnan(arr).sum()}, inf={np.isinf(arr).sum()}, "
+          f"min={np.nanmin(arr):.6g}, max={np.nanmax(arr):.6g}")
 
+_check_np("hist_train", hist_train)
+_check_np("nwp_train",  nwp_train)
+_check_np("y_train",    y_train)
+_check_np("hist_val",   hist_val)
+_check_np("nwp_val",    nwp_val)
+_check_np("y_val",      y_val)
+_check_np("coords_tr",  coords_tr)
+_check_np("coords_va",  coords_va)
 # ---------------- 读取站点经纬高程并生成 coords ----------------
 df = pd.read_csv(csv_path, dtype={'Station_Id_C': str}, low_memory=False)
 df['Station_Id_C'] = df['Station_Id_C'].str.strip().str.upper()
