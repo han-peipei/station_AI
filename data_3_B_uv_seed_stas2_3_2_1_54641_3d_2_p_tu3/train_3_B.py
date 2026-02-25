@@ -64,7 +64,7 @@ def plot_timeseries_stitched(y_true_windows, y_pred_windows, time=None, unit='m/
     # ax.title('Sliding-window Forecast')
     ax.legend(loc='upper right'); ax.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(f"/kaggle/working/select/timeseries_stitched.png"); plt.close()
+    plt.savefig(f"{out_dir}timeseries_stitched.png"); plt.close()
 ##########################################################################################
 def chain_rows_by_step(y_windows, time=None, auto_time=True):
     y_windows = np.asarray(y_windows)
@@ -103,7 +103,7 @@ def plot_chain_rows_by_step(y_true_windows, y_pred_windows, time=None,
     # plt.title(f'Chained series: rows 1, 1+{step}, 1+2×{step}, ... (full window)')
     ax.grid(True, alpha=0.3); ax.legend()
     plt.tight_layout()
-    plt.savefig(f'/kaggle/working/select/chain_rows_by_step_{tag}.png')
+    plt.savefig(f'{out_dir}chain_rows_by_step_{tag}.png')
     plt.close()
 
     # return yt, yp, (tt if tt is not None else None), idx
@@ -130,7 +130,7 @@ def plot_scatter_by_leads(y_true_windows, y_pred_windows,  unit='m/s', tag='dire
     plt.ylabel(f'Predicted [{unit}]')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(f"/kaggle/working/select/scatter_all_{tag}.png")
+    plt.savefig(f"{out_dir}scatter_all_{tag}.png")
     plt.close()
 #######################################################################################################
 def get_bins_interval(bins):
@@ -170,7 +170,7 @@ def plot_pdf_1d(y_true_windows,y_pred_windows):
     ax.set_xlabel('Wind speed [m/s]')
     ax.set_ylabel('PDF')
     ax.legend()
-    plt.savefig(f"/kaggle/working/select/pdf.png")
+    plt.savefig(f"{out_dir}pdf.png")
     plt.show()
 
 #######################################################################################################
@@ -217,7 +217,7 @@ def plot_kde2d_full(y_true_windows, y_pred_windows, unit='m/s', tag='direct',
     ax.spines['top'].set_color('none')
 
     fig.tight_layout()
-    fig.savefig(f"/kaggle/working/select/scatter_kde2d_full_{tag}.png", dpi=160)
+    fig.savefig(f"{out_dir}scatter_kde2d_full_{tag}.png", dpi=160)
     plt.close(fig)
 ###############################################################################################################
 def plot_pcolor(y_true_windows, y_pred_windows, unit='m/s', tag='direct',
@@ -252,7 +252,7 @@ def plot_pcolor(y_true_windows, y_pred_windows, unit='m/s', tag='direct',
     ax.set_xlim(xe[0], xe[-1])
     ax.set_ylim(ye[0], ye[-1])
     fig.tight_layout()
-    fig.savefig(f"/kaggle/working/select/pcolor_{tag}.png", dpi=160)
+    fig.savefig(f"{out_dir}pcolor_{tag}.png", dpi=160)
 ###############################################################################################################
 def plot_residual_hist_all(y_true_windows, y_pred_windows, bins=40, unit='m/s', tag='direct'):
     yt, _ = stitch_overlapping_forecasts(y_true_windows)
@@ -268,7 +268,7 @@ def plot_residual_hist_all(y_true_windows, y_pred_windows, bins=40, unit='m/s', 
     plt.ylabel('Percentage (%)')
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(f"/kaggle/working/select/residual_hist_ln.png")
+    plt.savefig(f"{out_dir}residual_hist_ln.png")
     plt.close()
 ##################################################################################################
 def bin_percentages(y_true_windows, y_pred_windows, edges=(-12,-10,-8,-6,-4,-2,0,2,4,6,8,10,12), include_outside=True):
@@ -313,7 +313,7 @@ def plot_bin_percentages(labels, percents, tag='direct'):
     plt.grid(axis='y', alpha=0.3)
     plt.tight_layout()
     plt.yscale('log') 
-    plt.savefig(f'/kaggle/working/select/error_bin_percent_{tag}.png')
+    plt.savefig(f'{out_dir}error_bin_percent_{tag}.png')
     plt.close()
 ##########################################################################################
 ##########################################################################################
@@ -425,14 +425,14 @@ def train_and_evaluate_from_npy(
     print(hist_train.shape)
     print(nwp_train.shape)
     print(y_train.shape)
-    np.save("/kaggle/working/select/coords_elev_mean.npy", np.array([elev_mean], dtype=np.float32))
-    np.save("/kaggle/working/select/coords_elev_std.npy",  np.array([elev_std],  dtype=np.float32))
+    np.save(f"{out_dir}coords_elev_mean.npy", np.array([elev_mean], dtype=np.float32))
+    np.save(f"{out_dir}coords_elev_std.npy",  np.array([elev_std],  dtype=np.float32))
 
 
     y_train, y_mean, y_std = standardize(y_train)
     y_val = (y_val - y_mean)/y_std
-    np.save(f"/kaggle/working/select/y_mean.npy", y_mean.astype(np.float32))
-    np.save(f"/kaggle/working/select/y_std.npy", y_std.astype(np.float32))
+    np.save(f"{out_dir}y_mean.npy", y_mean.astype(np.float32))
+    np.save(f"{out_dir}y_std.npy", y_std.astype(np.float32))
 ########################
     # eps = 1e-8
 
@@ -548,11 +548,11 @@ def train_and_evaluate_from_npy(
     plt.ylim(0.5,0.75)
     plt.xlim(0,13)
     plt.legend()
-    plt.savefig("/kaggle/working/select/loss_curve_direct.png")
+    plt.savefig(f"{out_dir}loss_curve_direct.png")
     plt.close()
 
     # === 6. 评估 ===
-    model.load_state_dict(torch.load('best_direct_model.pth', weights_only=True))
+    model.load_state_dict(torch.load(f"{out_dir}best_direct_model.pth", weights_only=True))
     model.eval()
 
     preds, trues = [], []
@@ -565,8 +565,8 @@ def train_and_evaluate_from_npy(
             trues.append(true)
     preds = np.concatenate(preds,0)
     trues = np.concatenate(trues,0)
-    np.save(os.path.join(save_dir, "val_preds_windows.npy"), preds.astype(np.float32))
-    np.save(os.path.join(save_dir, "val_trues_windows.npy"), trues.astype(np.float32))
+    np.save(os.path.join(out_dir, "val_preds_windows.npy"), preds.astype(np.float32))
+    np.save(os.path.join(out_dir, "val_trues_windows.npy"), trues.astype(np.float32))
 #########################################################################
     time_val = None   # 或者用 pandas.date_range(...) 构造
 
@@ -599,12 +599,12 @@ def train_and_evaluate_from_npy(
     plt.plot(hourly_mse,'o-')
     plt.xlim(0,25)
     # plt.ylim(0,2.5)
-    plt.savefig("/kaggle/working/select/hourly_mse_direct.png")
+    plt.savefig(f"{out_dir}hourly_mse_direct.png")
     plt.close()
     plt.plot(hourly_mae,'o-')
     # plt.ylim(1,2.5)
     plt.xlim(0,25)
-    plt.savefig("/kaggle/working/select/hourly_mae_direct.png")
+    plt.savefig(f"{out_dir}hourly_mae_direct.png")
     plt.close()
 
     # 单个样本
@@ -614,21 +614,21 @@ def train_and_evaluate_from_npy(
     # plt.ylim(0,8)
     plt.xlim(0,25)
     plt.legend()
-    plt.savefig("/kaggle/working/select/example_direct0.png")
+    plt.savefig(f"{out_dir}example_direct0.png")
     plt.close()
     plt.plot(trues[1],label='True')
     plt.plot(preds[1],label='Pred')
     # plt.ylim(0,8)
     plt.xlim(0,25)
     plt.legend()
-    plt.savefig("/kaggle/working/select/example_direct1.png")
+    plt.savefig(f"{out_dir}example_direct1.png")
     plt.close()
     plt.plot(trues[10],label='True')
     plt.plot(preds[10],label='Pred')
     # plt.ylim(0,8)
     plt.xlim(0,25)
     plt.legend()
-    plt.savefig("/kaggle/working/select/example_direct10.png")
+    plt.savefig(f"{out_dir}example_direct10.png")
     plt.close()
 
     print("Total MSE:", mean_squared_error(trues.flatten(), preds.flatten()))
