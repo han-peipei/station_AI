@@ -276,7 +276,7 @@ def bin_percentages(y_true_windows, y_pred_windows, edges=(-12,-10,-8,-6,-4,-2,0
     yp, cnt = stitch_overlapping_forecasts(y_pred_windows)
     err=yp - yt
     edges = np.asarray(edges, dtype=int)
-    err = np.asarray(err, dtype=int)
+    err = np.asarray(err, dtype=float)
     if include_outside:
         bins = np.concatenate(([-np.inf], edges, [np.inf]))
         counts, _ = np.histogram(err, bins=bins)
