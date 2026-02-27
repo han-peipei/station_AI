@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-path=/kaggle/working/select/
+path=/kaggle/working/2324_drop/
 mkdir -p "$path"
 # 可选：线程数（Kaggle 不一定有 64 核）
 # export OMP_NUM_THREADS=8
